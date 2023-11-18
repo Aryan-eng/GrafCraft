@@ -74,6 +74,9 @@ public class MyFrame implements ActionListener{
 		//main.setLayout(new BoxLayout());
 		main.add(addEquation);
 		
+		JPopupMenu hyperbolaChoice = new JPopupMenu();
+		hyperbolaChoice.setBounds(50, 50, 250, 70);
+		
 		JPopupMenu functionsList = new JPopupMenu();
 		functionsList.setSize(new Dimension(250, 70));
         functionsList.add(new JMenuItem(new AbstractAction("Line") {
@@ -185,7 +188,70 @@ public class MyFrame implements ActionListener{
             }
         }));
         
+        JMenu hyperbola = new JMenu("Hyperbola");
+        functionsList.add(hyperbola);
         
+        JMenuItem verticalHyperbola = new JMenuItem("Vertical Hyperbola");
+        JMenuItem horizantalHyperbola = new JMenuItem("Horizantal Hyperbola");
+        hyperbola.add(verticalHyperbola);
+        hyperbola.add(horizantalHyperbola);
+        
+        verticalHyperbola.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JTextField enterLine = new JTextField("((y - (k))^2)/((a)^2) - ((x - (h))^2)/((b)^2) = 1");
+            	enterLine.setBounds(10, spawnEquation, 150, 50);
+            	main.add(enterLine);
+            	frame.revalidate();
+                frame.repaint();
+                Hyperbola newHyperbola = new Hyperbola(enterLine, sketch);
+                newHyperbola.vertical = true;
+                JButton submitEquation = new JButton("Enter");
+                main.add(submitEquation);
+                submitEquation.setBounds(160, spawnEquation, 80, 50);
+                submitEquation.setVisible(true);
+                submitEquation.addActionListener(new ActionListener() {
+                		
+                	@Override
+                	public void actionPerformed(ActionEvent e) {
+                		newHyperbola.defineEquationForVertical();
+                        sketch.hyperbolas.add(newHyperbola);
+                	}
+                		
+                });
+                spawnEquation += 60; 
+        	}
+        	
+        });
+        
+        horizantalHyperbola.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JTextField enterLine = new JTextField("((x - (h))^2)/((a)^2) - ((y - (k))^2)/((b)^2) = 1");
+            	enterLine.setBounds(10, spawnEquation, 150, 50);
+            	main.add(enterLine);
+            	frame.revalidate();
+                frame.repaint();
+                Hyperbola newHyperbola = new Hyperbola(enterLine, sketch);
+                JButton submitEquation = new JButton("Enter");
+                main.add(submitEquation);
+                submitEquation.setBounds(160, spawnEquation, 80, 50);
+                submitEquation.setVisible(true);
+                submitEquation.addActionListener(new ActionListener() {
+                		
+                	@Override
+                	public void actionPerformed(ActionEvent e) {
+                		newHyperbola.defineEquationForHorizantal();
+                        sketch.hyperbolas.add(newHyperbola);
+                	}
+                		
+                });
+                spawnEquation += 60; 
+        	}
+        	
+        });
 
         addEquation.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {

@@ -11,6 +11,7 @@ public class Display extends PApplet {
 	public ArrayList<Circle> circles = new ArrayList<Circle>();
 	public ArrayList<Quadratic> quadratics = new ArrayList<Quadratic>();
 	public ArrayList<Ellipse> ellipses = new ArrayList<Ellipse>();
+	public ArrayList<Hyperbola> hyperbolas = new ArrayList<Hyperbola>();
 	public float ox = 0;
 	public float oy = 0;
 	public float s = 80;
@@ -71,6 +72,27 @@ public class Display extends PApplet {
 	    strokeWeight(1);
 	}
 	
+	public void verticalHyperbola(float k, float a, float h, float b) {
+		for(float i=-width/2 - ox; i<width/2 - ox; i+=0.05){
+	        strokeWeight(2);
+	        stroke(0);
+	        float y=pow(b,2)*(1+pow(i-h,2)/pow(a,2));
+	        point(s*i+ox,s*(sqrt(y)+k)+oy);
+	        point(s*i+ox,s*(-sqrt(y)-k)+oy);
+	        strokeWeight(1);
+	     }
+	}
+	
+	public void horizantalHyperbola(float h, float a, float k, float b) {
+		for(float i=-width/2 - ox; i<width/2 - ox; i+=0.05){
+			strokeWeight(2);
+		     float y=-pow(b,2)*(a+(i)-h)*(a-(i)+h)/(pow(a,2));
+		     point(s*i+ox,s*(sqrt(y)+k)+oy);
+		     point(s*i+ox,s*(-sqrt(y)-k)+oy);
+		     strokeWeight(1);
+	     }
+	}
+	
 	public void display() {
 		for (int i = 0; i < lines.size(); i++) {
 			Linear(lines.get(i).m, lines.get(i).b);
@@ -83,6 +105,14 @@ public class Display extends PApplet {
 		}
 		for (int i = 0; i < ellipses.size(); i++) {
 			Ellipse(ellipses.get(i).h, ellipses.get(i).k, ellipses.get(i).a, ellipses.get(i).b);	
+		}
+		for (int i = 0; i < hyperbolas.size(); i++) {
+			if (hyperbolas.get(i).vertical == true) {
+				verticalHyperbola(hyperbolas.get(i).k, hyperbolas.get(i).a, hyperbolas.get(i).h, hyperbolas.get(i).b);
+			}
+			else {
+				horizantalHyperbola(hyperbolas.get(i).h, hyperbolas.get(i).a, hyperbolas.get(i).k, hyperbolas.get(i).b);
+			}
 		}
 	}
 	
