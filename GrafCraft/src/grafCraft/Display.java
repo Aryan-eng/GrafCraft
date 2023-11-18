@@ -68,7 +68,7 @@ public class Display extends PApplet {
 	public void Ellipse(float h, float k, float a, float b) {
 		noFill();
 	    strokeWeight(2);
-	    ellipse(s*h+ox,-(s*k)+oy,s*a,s*b);
+	    ellipse(s*h+ox,-(s*k)+oy,s*2*a,s*2*b);
 	    strokeWeight(1);
 	}
 	

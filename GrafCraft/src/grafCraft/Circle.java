@@ -29,9 +29,6 @@ public class Circle {
 						for (int x = j + 8; x < input.getText().length(); x++) {
 							if (input.getText().charAt(x) == ')') {
 								r = Float.parseFloat(input.getText().substring(j+8, x));
-								System.out.println(h);
-								System.out.println(k);
-								System.out.println(r);
 								break;
 							}
 						}
