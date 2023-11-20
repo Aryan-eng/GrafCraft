@@ -188,6 +188,7 @@ public class MyFrame implements ActionListener{
             }
         }));
         
+        
         JMenu hyperbola = new JMenu("Hyperbola");
         functionsList.add(hyperbola);
         
@@ -252,6 +253,35 @@ public class MyFrame implements ActionListener{
         	}
         	
         });
+        
+        functionsList.add(new JMenuItem(new AbstractAction("Text Equation") {
+        	
+        	@Override
+            public void actionPerformed(ActionEvent e) {
+            	JTextField enterLine = new JTextField();
+            	enterLine.setBounds(10, spawnEquation, 150, 50);
+            	main.add(enterLine);
+            	frame.revalidate();
+                frame.repaint();
+                JButton submitEquation = new JButton("Enter");
+                main.add(submitEquation);
+                submitEquation.setBounds(160, spawnEquation, 80, 50);
+                submitEquation.setVisible(true);
+                submitEquation.addActionListener(new ActionListener() {
+                		
+                	@Override
+                	public void actionPerformed(ActionEvent e) {
+                		Equation newEquation = new Equation(enterLine.getText(), sketch);
+                		newEquation.assign();
+                		newEquation.getPoints();
+                		sketch.equations.add(newEquation);
+                	
+                	}
+                		
+                });
+                spawnEquation += 60;      
+            }
+        }));
 
         addEquation.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {

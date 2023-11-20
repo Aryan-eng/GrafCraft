@@ -12,11 +12,15 @@ public class Display extends PApplet {
 	public ArrayList<Quadratic> quadratics = new ArrayList<Quadratic>();
 	public ArrayList<Ellipse> ellipses = new ArrayList<Ellipse>();
 	public ArrayList<Hyperbola> hyperbolas = new ArrayList<Hyperbola>();
+	public ArrayList<Equation> equations = new ArrayList<Equation>();
 	public float ox = 0;
 	public float oy = 0;
 	public float s = 80;
 	public float freezeX;
 	public float freezeY;
+	float sublineO = 100;
+	float rs = 80;
+	float snap = 1;
 	
 	public void settings() {
 		
@@ -25,14 +29,14 @@ public class Display extends PApplet {
 	}
 	
 	public void setup() {
-		
-		
+		surface.setResizable(true);
 	}
 	
 	public void draw() {
 		background(255);
 		translate(width/2, height/2);
 		grid();
+		s=rs*snap;
 		mouseWheel();
 		mousePressed();
 		mouseDragged();
@@ -93,6 +97,13 @@ public class Display extends PApplet {
 	     }
 	}
 	
+	public void Equation(Equation e) {
+		for (int i = 1; i < e.pointsX.size(); i++) {
+			strokeWeight(2);
+			line(e.pointsX.get(i-1), e.pointsY.get(i-1), e.pointsX.get(i), e.pointsY.get(i));
+		}
+	}
+	
 	public void display() {
 		for (int i = 0; i < lines.size(); i++) {
 			Linear(lines.get(i).m, lines.get(i).b);
@@ -114,6 +125,10 @@ public class Display extends PApplet {
 				horizantalHyperbola(hyperbolas.get(i).h, hyperbolas.get(i).a, hyperbolas.get(i).k, hyperbolas.get(i).b);
 			}
 		}
+		for (int i = 0; i < equations.size(); i++) {
+			Equation(equations.get(i));
+		}
+		
 	}
 	
 	public void run(){
@@ -122,34 +137,80 @@ public class Display extends PApplet {
 	}
 	
 	public void grid(){
-		stroke(255,0,0);
-		line(-width/2,oy,width/2,oy);
-		line(ox,-height/2,ox,height/2);
-		stroke(0);
+		  stroke(255,0,0);
+		  line(-width/2,oy,width/2,oy);
+		  line(ox,-height/2,ox,height/2);
+		  stroke(0);
 		  
-		for(float i = ox + s; i<width/2;i+= s){
-			line(i,-height/2,i,height/2);
-			// println(i+","+(ox+i));
-		}
-		for(float i = ox-s; i>-width/2;i-=s){
-			line(i,-height/2,i,height/2);
-		}
-		for(float i=oy+s; i<height/2;i+=s){
-			line(-width/2,i,width/2,i);
-		}
-		for(float i=oy-s; i>-height/2;i-=s){
-			line(-width/2,i,width/2,i);
-		}
+		  for(float i=ox+rs/2; i<width/2;i+=rs){
+		    strokeWeight(0.5f);
+		    stroke(128,128,128,sublineO);
+		    line(i,-height/2,i,height/2);
+		    strokeWeight(1);
+		    stroke(0);
+		    line(i+rs/2,-height/2,i+rs/2,height/2);
+		  }
+		  for(float i=ox-rs/2; i>-width/2;i-=rs){
+		    strokeWeight(0.5f);
+		    stroke(128,128,128,sublineO);
+		    line(i,-height/2,i,height/2);
+		    strokeWeight(1);
+		    stroke(0);
+		    line(i-rs/2,-height/2,i-rs/2,height/2);
+		  }
+		  for(float i=oy+rs/2; i<height/2;i+=rs){
+		    strokeWeight(0.5f);
+		    stroke(128,128,128,sublineO);
+		    line(-width/2,i,width/2,i);
+		    strokeWeight(1);
+		    stroke(0);
+		    line(-width/2,i+rs/2,width/2,i+rs/2);
+		  }
+		  for(float i=oy-rs/2; i>-height/2;i-=rs){
+		    strokeWeight(0.5f);
+		    stroke(128,128,128,sublineO);
+		    line(-width/2,i,width/2,i);
+		    strokeWeight(1);
+		    stroke(0);
+		    line(-width/2,i-rs/2,width/2,i-rs/2);
+		  }
+		//display numbers in the positive x
+		  fill(0);
+		  
+
+		    for(float i=ox+rs; i<width/2;i+=rs){
+		    textSize(10);
+		    text(String.valueOf((float)((i/rs)/snap)-ox/s),i+rs/4,oy+rs/4);
+		    }
+		    for(float i=ox-rs; i>-width/2;i-=rs){
+		    textSize(10);
+		    text(String.valueOf((float)((i/rs)/snap)-ox/s),i+rs/4,oy+rs/4);
+		    }
+		    for(float i=oy+rs; i<height/2;i+=rs){
+		    textSize(10);
+		    text(String.valueOf(-(float)((i/rs)/snap)+oy/s),ox+rs/4,i);
+		    }
+		    for(float i=oy-rs; i>-height/2;i-=rs){
+		    textSize(10);
+		    text(String.valueOf(-(float)((i/rs)/snap)+oy/s),ox+rs/4,i-rs/8);
+		    }
+		  
+
 	}
 	
 	public void mouseWheel(MouseEvent event){ 
-		s+=event.getCount();
-		translate(mouseX, mouseY);
-		if(s<10){
-			s=10;
+		rs+=event.getCount();
+		s=rs*snap;
+		if(rs>100){
+			rs=50;
+		    snap=snap*2;
 		}
-		if(s>width/2){
-			s=width/2;
+		if (rs<25){
+			rs=50;
+		    snap=snap/2;
+		}
+		if(s<1){
+		    s=1;
 		}
 	}
 

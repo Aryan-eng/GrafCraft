@@ -8,6 +8,8 @@ public class Main {
 
 		myFrame.show();
 		sketch.run();
+		Equation e = new Equation("y = 3x", sketch);
+
 		
 	}
 	 
